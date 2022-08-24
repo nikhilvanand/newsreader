@@ -6,3 +6,5 @@ class NewsLoadedEvent extends NewsfeederEvent {
   final String article;
   NewsLoadedEvent({required this.article});
 }
+
+class NewsLoadingEvent extends NewsfeederEvent {}

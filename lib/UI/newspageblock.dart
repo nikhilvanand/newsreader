@@ -42,7 +42,10 @@ class _HomeView extends StatelessWidget {
                 BlocBuilder<NewsBloc, List<dynamic>>(builder: (context, data) {
           if (data.isEmpty) {
             context.read<NewsBloc>().add(NewsLoadedEvent(article: title));
-            return const Text('');
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
           } else {
             return ListView.builder(
                 itemCount: data.length,
