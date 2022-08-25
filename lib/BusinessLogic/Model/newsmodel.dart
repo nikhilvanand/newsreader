@@ -7,14 +7,13 @@ class News {
       publishedAt = '0',
       content = '0';
   News(
-      {
-        required this.title,
-        required this.author,
-        required this.content,
-        required this.description,
-        required this.publishedAt,
-        required this.url,
-        required this.urlToImage});
+      {required this.title,
+      required this.author,
+      required this.content,
+      required this.description,
+      required this.publishedAt,
+      required this.url,
+      required this.urlToImage});
   factory News.fromJson(Map<String, dynamic> data) {
     return News(
         title: data['title'] ?? '',
@@ -26,12 +25,12 @@ class News {
         urlToImage: data['urlToImage'] ?? '');
   }
   Map<String, dynamic> toJson() => {
-    "title": title,
-    "author": author,
-    "content": content,
-    "description": description,
-    "publishedAt": publishedAt,
-    "url": url,
-    "urlToImage": urlToImage,
-  };
+        "title": title,
+        "author": author,
+        "content": content,
+        "description": description,
+        "publishedAt": publishedAt,
+        "url": url,
+        "urlToImage": urlToImage,
+      };
 }

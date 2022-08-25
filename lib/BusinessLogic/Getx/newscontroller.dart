@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as di;
-import '../Model/diomodel.dart';
+import 'package:newsreader/BusinessLogic/Repository/diomodel.dart';
 import '../Model/newsmodel.dart';
 
 class NewsController extends GetxController with StateMixin<List<News>> {

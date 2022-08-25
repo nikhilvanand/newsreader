@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:newsreader/Getx/newscontroller.dart';
+import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 
 class NewsBinder extends Bindings {
   @override

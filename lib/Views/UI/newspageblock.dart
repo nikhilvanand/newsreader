@@ -1,23 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:newsreader/Getx/newscontroller.dart';
-import 'package:newsreader/UI/newsDetail.dart';
+import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
+import 'package:newsreader/Views/UI/newsDetail.dart';
 import 'package:get/get.dart';
 
 class NewsBlockPage extends StatefulWidget {
   final String title;
   const NewsBlockPage({Key? key, required this.title}) : super(key: key);
-  /* @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: _HomeView(
-        title: title,
-      ),
-      debugShowCheckedModeBanner: false,
-    );
-  }*/
-
   @override
   State<StatefulWidget> createState() => _HomeView(title: title);
 }
