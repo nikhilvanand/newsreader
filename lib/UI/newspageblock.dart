@@ -1,124 +1,128 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:newsreader/Getx/newscontroller.dart';
 import 'package:newsreader/UI/newsDetail.dart';
-import 'package:newsreader/bloc/bloc/newsfeeder_bloc.dart';
+import 'package:get/get.dart';
 
-class NewsBlockPage extends StatelessWidget {
+class NewsBlockPage extends StatefulWidget {
   final String title;
-  NewsBlockPage({Key? key, required this.title}) : super(key: key);
-  @override
+  const NewsBlockPage({Key? key, required this.title}) : super(key: key);
+  /* @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => NewsBloc(),
-      child: _HomeView(
+    return GetMaterialApp(
+      home: _HomeView(
         title: title,
       ),
+      debugShowCheckedModeBanner: false,
     );
-  }
+  }*/
+
+  @override
+  State<StatefulWidget> createState() => _HomeView(title: title);
 }
 
-class _HomeView extends StatelessWidget {
-  final String title;
-  const _HomeView({Key? key, required this.title}) : super(key: key);
+class _HomeView extends State {
+  late final String title;
+  _HomeView({required this.title});
+  final NewsController newsController = Get.put(NewsController());
+  @override
+  void initState() {
+    super.initState();
+    newsController.loadNews(title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown.shade800,
-      appBar: AppBar(
-        backgroundColor: Colors.brown,
-        elevation: 0,
-        title: Text(
-          title,
-          //style: TextStyle(color: Colors.black),
+        backgroundColor: Colors.brown.shade800,
+        appBar: AppBar(
+          backgroundColor: Colors.brown,
+          elevation: 0,
+          title: Text(
+            title,
+            //style: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Center(
-            //direction: Axis.horizontal,
-            child:
-                BlocBuilder<NewsBloc, List<dynamic>>(builder: (context, data) {
-          if (data.isEmpty) {
-            context.read<NewsBloc>().add(NewsLoadedEvent(article: title));
-            return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.white,
-            ));
-          } else {
-            return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10)),
-                              child: CachedNetworkImage(
-                                imageUrl: data[index].urlToImage,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.brown.shade50,
-                                )),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+        body: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: newsController.obx(
+                (state) => ListView.builder(
+                    itemCount: state?.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: state![index].urlToImage,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.brown.shade50,
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Flexible(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    data[index].title,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        state[index].title,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        DateFormat('yyyy-MM-dd, kk:mm')
+                                            .format(DateTime.parse(
+                                                state[index].publishedAt))
+                                            .toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    DateFormat('yyyy-MM-dd, kk:mm')
-                                        .format(DateTime.parse(
-                                            data[index].publishedAt))
-                                        .toString(),
-                                    style: const TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewsDetail(
-                                      news: data[index],
-                                    )));
-                      },
-                    ),
-                  );
-                });
-          }
-        })),
-      ),
-    );
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewsDetail(
+                                          news: state[index],
+                                        )));
+                          },
+                        ),
+                      );
+                    }),
+                onLoading: const CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+                //onError: Text('Something Error Happened!'),
+              ),
+            )));
   }
 }
