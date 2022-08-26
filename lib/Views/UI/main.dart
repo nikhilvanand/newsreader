@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsreader/Views/UI/newspageblock.dart';
+import 'package:newsreader/Views/UI/newspagelist.dart';
+import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
+import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: CommonLightTheme().themedata,
+      darkTheme: CommonDarkTheme().themedata,
       home: MyHomePage(title: 'News'),
       debugShowCheckedModeBanner: false,
     );
@@ -29,7 +30,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.brown.shade600,
+        //backgroundColor: Colors.brown.shade600,
         appBar: AppBar(
           title: const Text('News'),
           backgroundColor: Colors.transparent,
@@ -40,38 +41,40 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 150,
+                height: 160,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: AssetImage('Assets/Images/${assetimages[8]}'),
+                        image: AssetImage(
+                            'Assets/MainScreen/Images/${assetimages[0]}'),
                         fit: BoxFit.cover,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.black54, BlendMode.darken),
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).primaryColor, BlendMode.darken),
                       ),
+                      /*gradient: const LinearGradient(
+                          colors: [Colors.white, Colors.black],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter),*/
                     ),
                     child: InkWell(
                       child: Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            newsquery[8],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 25, color: Colors.white),
-                          ),
+                          child: Text(newsquery[0],
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline5),
                         ),
                       ),
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewsBlockPage(
-                                      title: newsquery[8],
+                                builder: (context) => NewsPage(
+                                      title: newsquery[0],
                                     )));
                       },
                     ),
@@ -83,11 +86,11 @@ class MyHomePage extends StatelessWidget {
                   child: GridView.count(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    crossAxisCount: 3,
-                    children: List.generate(8, (index) {
+                    crossAxisCount: 2,
+                    children: List.generate(newsquery.length - 1, (index) {
                       return Card(
                           elevation: 0,
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.black.withOpacity(0.1),
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -103,10 +106,11 @@ class MyHomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            'Assets/Images/${assetimages[index]}'),
+                                            'Assets/MainScreen/Images/${assetimages[index + 1]}'),
                                         fit: BoxFit.cover,
-                                        colorFilter: const ColorFilter.mode(
-                                            Colors.black54, BlendMode.darken),
+                                        colorFilter: ColorFilter.mode(
+                                            Theme.of(context).primaryColor,
+                                            BlendMode.darken),
                                       ),
                                     ),
                                     child: Align(
@@ -114,11 +118,11 @@ class MyHomePage extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(10),
                                         child: Text(
-                                          newsquery[index],
+                                          newsquery[index + 1],
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 25,
-                                              color: Colors.white),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5,
                                         ),
                                       ),
                                     ),
@@ -130,8 +134,8 @@ class MyHomePage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => NewsBlockPage(
-                                            title: newsquery[index],
+                                      builder: (context) => NewsPage(
+                                            title: newsquery[index + 1],
                                           )));
                             },
                           ));
@@ -144,6 +148,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   final List<String> newsquery = [
+    'Google',
     'Apple',
     'Tesla',
     'Amazon',
@@ -152,9 +157,9 @@ class MyHomePage extends StatelessWidget {
     'Sports',
     'Entertainment',
     'Gadgets',
-    'Google'
   ];
   final List<String> assetimages = [
+    'google.png',
     'apple.png',
     'tesla.png',
     'amazon.png',
@@ -163,6 +168,5 @@ class MyHomePage extends StatelessWidget {
     'sports.png',
     'entertainment.png',
     'gadgets.png',
-    'google.png'
   ];
 }

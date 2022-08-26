@@ -4,10 +4,27 @@ import 'package:intl/intl.dart';
 import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 import 'package:newsreader/Views/UI/newsDetail.dart';
 import 'package:get/get.dart';
+import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
+import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
 
-class NewsBlockPage extends StatefulWidget {
+class NewsPage extends StatelessWidget {
   final String title;
-  const NewsBlockPage({Key? key, required this.title}) : super(key: key);
+
+  const NewsPage({super.key, required this.title});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: CommonLightTheme().themedata,
+      darkTheme: CommonDarkTheme().themedata,
+      home: NewsPageState(title: title),
+    );
+  }
+}
+
+class NewsPageState extends StatefulWidget {
+  final String title;
+  const NewsPageState({Key? key, required this.title}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _HomeView(title: title);
 }
@@ -27,7 +44,7 @@ class _HomeView extends State {
     return Scaffold(
         backgroundColor: Colors.brown.shade800,
         appBar: AppBar(
-          backgroundColor: Colors.brown,
+          //backgroundColor: Colors.brown,
           elevation: 0,
           title: Text(
             title,
@@ -76,6 +93,7 @@ class _HomeView extends State {
                                       padding: const EdgeInsets.all(10),
                                       child: Text(
                                         state[index].title,
+                                        maxLines: 3,
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),

@@ -8,18 +8,21 @@
         {
             "name": "newsreader",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/Views/UI/main.dart"
         },
         {
             "name": "newsreader (profile mode)",
             "request": "launch",
             "type": "dart",
+            "program": "lib/Views/UI/main.dart",
             "flutterMode": "profile"
         },
         {
             "name": "newsreader (release mode)",
             "request": "launch",
             "type": "dart",
+            "program": "lib/Views/UI/main.dart",
             "flutterMode": "release"
         }
     ]
