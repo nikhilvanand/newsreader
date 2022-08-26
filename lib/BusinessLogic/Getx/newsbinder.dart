@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+/*import 'package:get/get.dart';
 import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 
 class NewsBinder extends Bindings {
@@ -6,4 +6,4 @@ class NewsBinder extends Bindings {
   void dependencies() {
     Get.lazyPut(() => NewsController());
   }
-}
+}*/

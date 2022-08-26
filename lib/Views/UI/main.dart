@@ -3,6 +3,7 @@ import 'package:newsreader/Views/UI/newspagelist.dart';
 import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
 import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
 import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: CommonLightTheme().themedata,
       darkTheme: CommonDarkTheme().themedata,
@@ -133,13 +134,18 @@ class MyHomePage extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
-                              Navigator.push(
+                              /*Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => NewsPage(
                                             title:
                                                 menulist.newsquery[index + 1],
-                                          )));
+                                          )));*/
+                              Get.to(
+                                  NewsPage(
+                                    title: menulist.newsquery[index + 1],
+                                  ),
+                                  arguments: [index + 1]);
                             },
                           ));
                     }),
