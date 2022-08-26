@@ -145,7 +145,7 @@ class MyHomePage extends StatelessWidget {
                                   NewsPage(
                                     title: menulist.newsquery[index + 1],
                                   ),
-                                  arguments: [index + 1]);
+                                  arguments: index + 1);
                             },
                           ));
                     }),
