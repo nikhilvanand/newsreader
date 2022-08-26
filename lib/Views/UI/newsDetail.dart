@@ -4,15 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:newsreader/BusinessLogic/Model/newsmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class NewsDetail extends StatefulWidget {
+class NewsDetail extends StatelessWidget {
   const NewsDetail({Key? key, required this.news}) : super(key: key);
-  final News news;
-  @override
-  State<StatefulWidget> createState() => DetailView(news: news);
-}
-
-class DetailView extends State {
-  DetailView({Key? key, required this.news});
   final News news;
   @override
   Widget build(BuildContext context) {
