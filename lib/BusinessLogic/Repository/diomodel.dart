@@ -16,7 +16,10 @@ class DioModel {
   Map<String, dynamic>? parameters;
   Options? options; //=[,];
   DioModel(
-      {required this.query, required this.requestType, parameters, options});
+      {required this.query,
+      required this.requestType,
+      this.parameters,
+      this.options});
 
   Future<Response> dioQuery() async {
     Dio dio = Dio();
