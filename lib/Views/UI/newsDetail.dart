@@ -20,8 +20,9 @@ class DetailView extends State {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Back to List'),
+          elevation: 0,
           //centerTitle: true,
-          backgroundColor: Colors.brown.shade600,
+          backgroundColor: Theme.of(context).primaryColorDark,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -84,9 +85,9 @@ class DetailView extends State {
                     onPressed: () async {
                       Uri uri = Uri.parse(news.url);
                       /*if (! await launchUrl(uri)) {
-                                      throw 'Could not launch Url';
-                                      }else
-                                        {*/
+                                        throw 'Could not launch Url';
+                                        }else
+                                          {*/
                       await launchUrl(uri);
                       //}
                     },

@@ -4,7 +4,8 @@ class CommonLightTheme {
   ThemeData themedata = ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.black54,
-    primarySwatch: Colors.blueGrey,
+    primaryColorDark: Colors.blueGrey.shade900,
+    primarySwatch: Colors.brown,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
     ),
@@ -13,7 +14,7 @@ class CommonLightTheme {
         primary: Colors.brown,
       ),
     ),
-    scaffoldBackgroundColor: Colors.brown.shade600,
+    scaffoldBackgroundColor: Colors.blueGrey.shade900,
     textTheme: const TextTheme(
       headline5: TextStyle(fontSize: 22),
       bodyText1: TextStyle(fontSize: 16),

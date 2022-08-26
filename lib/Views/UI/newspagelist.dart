@@ -6,6 +6,7 @@ import 'package:newsreader/Views/UI/newsDetail.dart';
 import 'package:get/get.dart';
 import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
 import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
+import 'package:newsreader/Views/Utils/Widgets/MainPage/ListItems.dart';
 
 class NewsPage extends StatelessWidget {
   final String title;
@@ -42,14 +43,12 @@ class _HomeView extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.brown.shade800,
         appBar: AppBar(
-          //backgroundColor: Colors.brown,
           elevation: 0,
           title: Text(
             title,
-            //style: TextStyle(color: Colors.black),
           ),
+          automaticallyImplyLeading: true,
         ),
         body: Padding(
             padding: const EdgeInsets.all(10),
@@ -58,78 +57,12 @@ class _HomeView extends State {
                 (state) => ListView.builder(
                     itemCount: state?.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: InkWell(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10)),
-                                  child: CachedNetworkImage(
-                                    imageUrl: state![index].urlToImage,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator(
-                                      color: Colors.brown.shade50,
-                                    )),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        state[index].title,
-                                        maxLines: 3,
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        DateFormat('yyyy-MM-dd, kk:mm')
-                                            .format(DateTime.parse(
-                                                state[index].publishedAt))
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NewsDetail(
-                                          news: state[index],
-                                        )));
-                          },
-                        ),
-                      );
+                      ListItems listItems = ListItems();
+                      return listItems.getMainListItem(context, state![index]);
                     }),
                 onLoading: const CircularProgressIndicator(
                   color: Colors.white,
                 ),
-                //onError: Text('Something Error Happened!'),
               ),
             )));
   }

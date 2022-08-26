@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsreader/Views/UI/newspagelist.dart';
 import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
 import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
+import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
-
+  Menulist menulist = Menulist();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +50,7 @@ class MyHomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: AssetImage(
-                            'Assets/MainScreen/Images/${assetimages[0]}'),
+                            'Assets/MainScreen/Images/${menulist.assetimages[0]}'),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                             Theme.of(context).primaryColor, BlendMode.darken),
@@ -64,7 +65,7 @@ class MyHomePage extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text(newsquery[0],
+                          child: Text(menulist.newsquery[0],
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headline5),
                         ),
@@ -74,7 +75,7 @@ class MyHomePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => NewsPage(
-                                      title: newsquery[0],
+                                      title: menulist.newsquery[0],
                                     )));
                       },
                     ),
@@ -87,7 +88,8 @@ class MyHomePage extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    children: List.generate(newsquery.length - 1, (index) {
+                    children:
+                        List.generate(menulist.newsquery.length - 1, (index) {
                       return Card(
                           elevation: 0,
                           color: Colors.black.withOpacity(0.1),
@@ -106,7 +108,7 @@ class MyHomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            'Assets/MainScreen/Images/${assetimages[index + 1]}'),
+                                            'Assets/MainScreen/Images/${menulist.assetimages[index + 1]}'),
                                         fit: BoxFit.cover,
                                         colorFilter: ColorFilter.mode(
                                             Theme.of(context).primaryColor,
@@ -118,7 +120,7 @@ class MyHomePage extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(10),
                                         child: Text(
-                                          newsquery[index + 1],
+                                          menulist.newsquery[index + 1],
                                           textAlign: TextAlign.center,
                                           style: Theme.of(context)
                                               .textTheme
@@ -135,7 +137,8 @@ class MyHomePage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => NewsPage(
-                                            title: newsquery[index + 1],
+                                            title:
+                                                menulist.newsquery[index + 1],
                                           )));
                             },
                           ));
@@ -147,7 +150,7 @@ class MyHomePage extends StatelessWidget {
         );
   }
 
-  final List<String> newsquery = [
+  /*final List<String> newsquery = [
     'Google',
     'Apple',
     'Tesla',
@@ -168,5 +171,5 @@ class MyHomePage extends StatelessWidget {
     'sports.png',
     'entertainment.png',
     'gadgets.png',
-  ];
+  ];*/
 }
