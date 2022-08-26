@@ -1,3 +1,4 @@
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as di;
 import 'package:newsreader/BusinessLogic/Repository/diomodel.dart';
@@ -9,8 +10,10 @@ class NewsController extends GetxController with StateMixin<List<News>> {
     change([], status: RxStatus.loading());
     try {
       Services services = Services();
-      DioModel dioModel =
-          DioModel(query: services.getNewsApiUrl(article), requestType: 'get');
+      DioModel dioModel = DioModel(
+          query: services.getNewsApiUrl(article),
+          requestType: 'get',
+          options: buildCacheOptions(const Duration(hours: 1)));
       di.Response response = await dioModel.dioQuery();
       Map<String, dynamic> list = response.data;
       List<dynamic> fullList = list['articles'];

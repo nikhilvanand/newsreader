@@ -72,12 +72,9 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewsPage(
-                                      title: menulist.newsquery[0],
-                                    )));
+                        Get.to(NewsPage(
+                          title: menulist.newsquery[0],
+                        ));
                       },
                     ),
                   ),

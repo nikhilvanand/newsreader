@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class CommonDarkTheme {
   ThemeData themedata = ThemeData(
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     primaryColor: Colors.black54,
+    primaryColorDark: Colors.brown.shade900,
+    primarySwatch: Colors.brown,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
     ),
@@ -12,7 +14,7 @@ class CommonDarkTheme {
         primary: Colors.brown,
       ),
     ),
-    scaffoldBackgroundColor: Colors.blueGrey.shade800,
+    scaffoldBackgroundColor: Colors.brown.shade900,
     textTheme: const TextTheme(
       headline5: TextStyle(fontSize: 22),
       bodyText1: TextStyle(fontSize: 16),
