@@ -14,14 +14,15 @@ class NewsController extends GetxController with StateMixin<List<News>> {
           query: services.getNewsApiUrl(article),
           requestType: 'get',
           options: buildCacheOptions(const Duration(hours: 1)));
-      di.Response response = await dioModel.dioQuery();
+      di.Response response = await dioModel.dioQuery(); // Api call Object
       Map<String, dynamic> list = response.data;
       List<dynamic> fullList = list['articles'];
-      List<News> newsList =
-          fullList.map<News>((e) => News.fromJson(e)).toList();
+      List<News> newsList = fullList
+          .map<News>((e) => News.fromJson(e))
+          .toList(); //Model Class Mapping
       change(newsList, status: RxStatus.success());
     } catch (e) {
-      change([], status: RxStatus.error());
+      change([], status: RxStatus.error(e.toString()));
     }
   }
 }
