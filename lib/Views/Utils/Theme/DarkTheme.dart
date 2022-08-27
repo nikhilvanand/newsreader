@@ -4,7 +4,8 @@ class CommonDarkTheme {
   ThemeData themedata = ThemeData(
     brightness: Brightness.dark,
     primaryColor: Colors.black54,
-    primaryColorDark: Colors.brown.shade900,
+    primaryColorLight: Colors.black87,
+    primaryColorDark: Colors.black, //blueGrey.shade900,
     primarySwatch: Colors.brown,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
@@ -14,13 +15,13 @@ class CommonDarkTheme {
         primary: Colors.brown,
       ),
     ),
-    scaffoldBackgroundColor: Colors.brown.shade900,
+    scaffoldBackgroundColor: Colors.black, //.shade900,
     textTheme: const TextTheme(
-      headline5: TextStyle(fontSize: 22),
+      headline5: TextStyle(fontSize: 18),
       bodyText1: TextStyle(fontSize: 16),
       bodyText2: TextStyle(fontSize: 16),
     ).apply(
-      bodyColor: Colors.white,
+      bodyColor: Colors.grey.shade200,
     ),
   );
 }

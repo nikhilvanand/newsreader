@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../BusinessLogic/Model/newsmodel.dart';
 import '../../../UI/newsDetail.dart';
+import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
+
+import '../../../UI/newspagelist.dart';
 
 class ListItems {
   Card getMainListItem(BuildContext context, News state) {
@@ -68,5 +71,64 @@ class ListItems {
         },
       ),
     );
+  }
+
+  Card getMainMenuItem(BuildContext context, int index) {
+    Menulist menulist = Menulist();
+    return Card(
+        elevation: 0,
+        //color: Colors.black.withOpacity(0.1),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: InkWell(
+          child: Stack(alignment: Alignment.topCenter, children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child: Image.asset(
+                'Assets/MainScreen/Images/${menulist.assetimages[index + 1]}',
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(colors: [
+                  Colors.transparent,
+                  Theme.of(context).primaryColorLight
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                /*image: DecorationImage(
+                      image: AssetImage(
+                          'Assets/MainScreen/Images/${menulist.assetimages[index + 1]}'),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Theme.of(context).primaryColor, BlendMode.darken),
+                    ),*/
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                  child: Text(
+                    menulist.newsquery[index + 1],
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ),
+              ),
+            ),
+            //)
+          ]),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewsPage(
+                          title: menulist.newsquery[index + 1],
+                        )));
+          },
+        ));
   }
 }
