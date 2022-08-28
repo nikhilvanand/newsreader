@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsreader/BusinessLogic/Getx/homecontroller.dart';
 import 'package:newsreader/Views/UI/newspagelist.dart';
 import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
 import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  HomeCOntroller controller = Get.put(HomeCOntroller());
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   ListItems listItems = ListItems();
@@ -39,6 +41,17 @@ class MyHomePage extends StatelessWidget {
           title: const Text('News'),
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: [
+            //Text(controller.favourite.value),
+            IconButton(
+                onPressed: () {
+                  Get.isDarkMode
+                      ? Get.changeTheme(CommonLightTheme().themedata)
+                      : Get.changeTheme(CommonDarkTheme().themedata);
+                  //Get.changeTheme(ThemeData.dark());
+                },
+                icon: const Icon(Icons.invert_colors))
+          ],
         ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -50,45 +63,49 @@ class MyHomePage extends StatelessWidget {
                 //width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Stack(children: [
-                    ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: Image.asset(
-                          'Assets/MainScreen/Images/${menulist.assetimages[0]}',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        )),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            colors: [
-                              Colors.transparent,
-                              Theme.of(context).primaryColorLight
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter),
-                      ),
-                      child: InkWell(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, bottom: 20),
-                            child: Text(menulist.newsquery[0],
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline5),
+                  child: Obx(() => Stack(children: [
+                        ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            child: Image.asset(
+                              'Assets/MainScreen/Images/${menulist.assetimages[controller.favIndex.value]}',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            )),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                                colors: [
+                                  Colors.transparent,
+                                  Theme.of(context).primaryColorLight
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter),
+                          ),
+                          child: InkWell(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 20),
+                                child: Text(
+                                    menulist
+                                        .newsquery[controller.favIndex.value],
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        Theme.of(context).textTheme.headline5),
+                              ),
+                            ),
+                            onTap: () {
+                              Get.to(NewsPage(
+                                title: menulist
+                                    .newsquery[controller.favIndex.value],
+                              ));
+                            },
                           ),
                         ),
-                        onTap: () {
-                          Get.to(NewsPage(
-                            title: menulist.newsquery[0],
-                          ));
-                        },
-                      ),
-                    ),
-                  ]),
+                      ])),
                 ),
               ),
               Padding(
@@ -97,8 +114,7 @@ class MyHomePage extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    children:
-                        List.generate(menulist.newsquery.length - 1, (index) {
+                    children: List.generate(menulist.newsquery.length, (index) {
                       return listItems.getMainMenuItem(context, index);
                     }),
                   )),

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:newsreader/BusinessLogic/Getx/homecontroller.dart';
 import '../../../../BusinessLogic/Model/newsmodel.dart';
 import '../../../UI/newsDetail.dart';
 import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
@@ -85,7 +87,7 @@ class ListItems {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: Image.asset(
-                'Assets/MainScreen/Images/${menulist.assetimages[index + 1]}',
+                'Assets/MainScreen/Images/${menulist.assetimages[index]}',
                 fit: BoxFit.cover,
                 height: double.infinity,
                 width: double.infinity,
@@ -112,7 +114,7 @@ class ListItems {
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 20),
                   child: Text(
-                    menulist.newsquery[index + 1],
+                    menulist.newsquery[index],
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline5,
                   ),
@@ -126,8 +128,13 @@ class ListItems {
                 context,
                 MaterialPageRoute(
                     builder: (context) => NewsPage(
-                          title: menulist.newsquery[index + 1],
+                          title: menulist.newsquery[index],
                         )));
+          },
+          onLongPress: () {
+            HomeCOntroller controller = Get.find();
+            controller.favIndex.value = index;
+            controller.favourite.value = menulist.newsquery[index];
           },
         ));
   }
