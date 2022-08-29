@@ -113,7 +113,7 @@ class MyHomePage extends StatelessWidget {
                   child: GridView.count(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    crossAxisCount: 2,
+                    crossAxisCount: 3,
                     children: List.generate(menulist.newsquery.length, (index) {
                       return listItems.getMainMenuItem(context, index);
                     }),

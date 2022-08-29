@@ -6,9 +6,11 @@ class Menulist {
     'Amazon',
     'Microsoft',
     'Samsung',
+    'Health',
+    'Politics',
     'Business',
     'Sports',
-    'Entertainment',
+    'Movies',
     'Gadgets',
   ];
   final List<String> assetimages = [
@@ -18,6 +20,8 @@ class Menulist {
     'amazon.png',
     'microsoft.png',
     'samsung.png',
+    'health.png',
+    'politics.png',
     'business.png',
     'sports.png',
     'entertainment.png',
