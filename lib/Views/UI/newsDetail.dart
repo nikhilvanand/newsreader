@@ -12,7 +12,11 @@ class NewsDetail extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Back to List'),
+          title: Text(
+            'Back to List',
+            style: Theme.of(context).textTheme.caption,
+          ),
+
           elevation: 0,
           //centerTitle: true,
           backgroundColor: Theme.of(context).primaryColorDark,

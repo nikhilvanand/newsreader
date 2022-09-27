@@ -5,7 +5,7 @@ class CommonDarkTheme {
     brightness: Brightness.dark,
     primaryColor: Colors.black54,
     primaryColorLight: Colors.black87,
-    primaryColorDark: Colors.black, //blueGrey.shade900,
+    primaryColorDark: Color.fromARGB(255, 255, 255, 255), //blueGrey.shade900,
     primarySwatch: Colors.brown,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
@@ -20,6 +20,8 @@ class CommonDarkTheme {
       headline5: TextStyle(fontSize: 18),
       bodyText1: TextStyle(fontSize: 16),
       bodyText2: TextStyle(fontSize: 16),
+      caption:
+          TextStyle(fontSize: 18, color: Color.fromARGB(255, 255, 255, 255)),
     ).apply(
       bodyColor: Colors.grey.shade200,
     ),

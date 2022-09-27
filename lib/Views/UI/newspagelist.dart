@@ -21,6 +21,7 @@ class NewsPage extends StatelessWidget {
           elevation: 0,
           title: Text(
             title,
+            style: Theme.of(context).textTheme.caption,
           ),
           automaticallyImplyLeading: true,
         ),
@@ -36,6 +37,11 @@ class NewsPage extends StatelessWidget {
                     }),
                 onLoading: const CircularProgressIndicator(
                   color: Colors.white,
+                ),
+                onEmpty: const Text('No Data'),
+                onError: (error) => const Text(
+                  'An Error Occured!\n Please check internet Connection',
+                  textAlign: TextAlign.center,
                 ),
               ),
             )));

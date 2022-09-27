@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:newsreader/BusinessLogic/Getx/homecontroller.dart';
+import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 import '../../../../BusinessLogic/Model/newsmodel.dart';
 import '../../../UI/newsDetail.dart';
 import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
 
 import '../../../UI/newspagelist.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListItems {
+  NewsController newsController = Get.find();
   Card getMainListItem(BuildContext context, News state) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -83,58 +86,77 @@ class ListItems {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: InkWell(
-          child: Stack(alignment: Alignment.topCenter, children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: Image.asset(
-                'Assets/MainScreen/Images/${menulist.assetimages[index]}',
-                fit: BoxFit.cover,
-                height: double.infinity,
-                width: double.infinity,
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(colors: [
-                  Colors.transparent,
-                  Theme.of(context).primaryColorLight
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                /*image: DecorationImage(
-                      image: AssetImage(
-                          'Assets/MainScreen/Images/${menulist.assetimages[index + 1]}'),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                          Theme.of(context).primaryColor, BlendMode.darken),
-                    ),*/
-              ),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-                  child: Text(
-                    menulist.newsquery[index],
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(children: [
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 4,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: Image.asset(
+                    'Assets/MainScreen/Images/${menulist.assetimages[index]}',
+                    fit: BoxFit.cover,
+                    //height: 80,
+                    width: double.infinity,
                   ),
                 ),
               ),
-            ),
-            //)
-          ]),
+              Flexible(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: FittedBox(
+                      child: Text(
+                        menulist.newsquery[index],
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Obx((() => Flexible(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: FittedBox(
+                          child: TextButton.icon(
+                            onPressed: () {
+                              newsController.setFavourite(index);
+                            },
+                            icon: newsController.favIndex.value == index
+                                ? const Icon(Icons.favorite)
+                                : const Icon(Icons.favorite_outline),
+                            label: const Text('Favourite'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))),
+              //)
+            ]),
+          ),
           onTap: () {
-            Navigator.push(
+            Get.to(NewsPage(
+              title: menulist.newsquery[index],
+            ));
+            /*Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => NewsPage(
                           title: menulist.newsquery[index],
-                        )));
+                        )));*/
           },
-          onLongPress: () {
-            HomeCOntroller controller = Get.find();
-            controller.favIndex.value = index;
-            controller.favourite.value = menulist.newsquery[index];
+          onLongPress: () async {
+            //HomeCOntroller controller = Get.find();
+            newsController.setFavourite(index);
+            //controller.favourite.value = menulist.newsquery[index];
           },
         ));
   }
