@@ -13,9 +13,9 @@ class CommonLightTheme {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
     ),
-    textButtonTheme: TextButtonThemeData(
+/*     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(primary: Colors.brown.shade900),
-    ),
+    ), */
     scaffoldBackgroundColor: Color.fromARGB(255, 228, 228, 228),
     textTheme: const TextTheme(
       headline5: TextStyle(fontSize: 18),

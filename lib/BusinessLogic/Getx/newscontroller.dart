@@ -11,6 +11,7 @@ class NewsController extends GetxController with StateMixin<List<News>> {
   final Size screenSize = Get.size;
   var favIndex = 0.obs;
   var tabIndex = 0.obs;
+  var searchArticle = 'News'.obs;
   @override
   void onInit() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -24,7 +25,7 @@ class NewsController extends GetxController with StateMixin<List<News>> {
     sharedPreferences.setInt('fav', favIndex.value);
   }
 
-  void loadNews(String article) async {
+  void loadNews({String article = ''}) async {
     change([], status: RxStatus.loading());
     try {
       Services services = Services();

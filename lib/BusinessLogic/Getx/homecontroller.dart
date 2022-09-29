@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+/* import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeCOntroller extends GetxController {
@@ -16,3 +16,4 @@ class HomeCOntroller extends GetxController {
     sharedPreferences.setInt('fav', favIndex.value);
   } */
 }
+ */

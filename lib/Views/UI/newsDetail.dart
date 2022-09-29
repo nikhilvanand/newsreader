@@ -10,7 +10,7 @@ class NewsDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text(
             'Back to List',
@@ -18,8 +18,9 @@ class NewsDetail extends StatelessWidget {
           ),
 
           elevation: 0,
+          foregroundColor: Theme.of(context).primaryColorDark,
           //centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColorDark,
+          //backgroundColor: Theme.of(context).primaryColorLight,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -47,7 +48,7 @@ class NewsDetail extends StatelessWidget {
                     news.title,
                     maxLines: 3,
                     style: const TextStyle(
-                        color: Colors.black,
+                        //color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
@@ -58,7 +59,7 @@ class NewsDetail extends StatelessWidget {
                     DateFormat('yyyy-MM-dd, kk:mm')
                         .format(DateTime.parse(news.publishedAt))
                         .toString(),
-                    style: const TextStyle(color: Colors.black),
+                    //style: const TextStyle(color: Colors.black),
                   ),
                   //var todayDate = DateFormat("yyyy-MM-dd", "en_US").parse(news.publishedAt);
                 ),
@@ -66,14 +67,14 @@ class NewsDetail extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     news.description,
-                    style: const TextStyle(color: Colors.black),
+                    //style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     news.content,
-                    style: const TextStyle(color: Colors.black),
+                    //style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
@@ -90,9 +91,11 @@ class NewsDetail extends StatelessWidget {
                     },
                     child: const Align(
                       alignment: Alignment.centerRight,
-                      child: Text('Source',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(color: Colors.black)),
+                      child: Text(
+                        'Source',
+                        textAlign: TextAlign.end,
+                        //style: TextStyle(color: Colors.black)
+                      ),
                     ),
                   ),
                 ),

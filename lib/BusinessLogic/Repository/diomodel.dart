@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 
 class DioModel {
   /*requestType = {
@@ -23,6 +24,9 @@ class DioModel {
 
   Future<Response> dioQuery() async {
     Dio dio = Dio();
+    dio.interceptors.add(
+        DioCacheManager(CacheConfig(baseUrl: "https://newsapi.org/"))
+            .interceptor);
     late final Response response;
     switch (requestType) {
       case 'get':

@@ -6,8 +6,6 @@ import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 import '../../../../BusinessLogic/Model/newsmodel.dart';
 import '../../../UI/newsDetail.dart';
 import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
-
-import '../../../UI/newspagelist.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class ListItems {
@@ -20,8 +18,8 @@ class ListItems {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 120,
-              height: 120,
+              width: 100,
+              height: 100,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -38,6 +36,7 @@ class ListItems {
               ),
             ),
             Flexible(
+              fit: FlexFit.tight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +45,8 @@ class ListItems {
                     padding: const EdgeInsets.all(10),
                     child: Text(
                       state.title,
-                      maxLines: 3,
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                      maxLines: 2,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
@@ -57,7 +55,7 @@ class ListItems {
                       DateFormat('yyyy-MM-dd, kk:mm')
                           .format(DateTime.parse(state.publishedAt))
                           .toString(),
-                      style: const TextStyle(color: Colors.black),
+                      /* style: const TextStyle(color: Colors.black), */
                     ),
                   ),
                 ],
@@ -77,21 +75,15 @@ class ListItems {
     );
   }
 
-  Padding getMainMenuItem(BuildContext context, int index) {
+  Padding topNewsCard(BuildContext context, int index) {
     Menulist menulist = Menulist();
     return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Neumorphic(
-          //elevation: 0,
+      padding: const EdgeInsets.all(2.0),
+      child: Card(
+          elevation: 6,
           //color: Colors.black.withOpacity(0.1),
-          /* hape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))), */
-          style: NeumorphicStyle(
-              shape: NeumorphicShape.convex,
-              boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
-              depth: 8,
-              lightSource: LightSource.topLeft,
-              color: Colors.white),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: InkWell(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -117,13 +109,10 @@ class ListItems {
                       padding:
                           const EdgeInsets.only(left: 10, right: 10, top: 10),
                       child: FittedBox(
-                        child: NeumorphicText(
+                        child: Text(
                           menulist.newsquery[index],
                           textAlign: TextAlign.center,
-                          style: const NeumorphicStyle(
-                              color: Colors.black,
-                              shape: NeumorphicShape.concave),
-                          textStyle: NeumorphicTextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                     ),
@@ -141,16 +130,12 @@ class ListItems {
                                 newsController.setFavourite(index);
                               },
                               icon: newsController.favIndex.value == index
-                                  ? NeumorphicIcon(
+                                  ? const Icon(
                                       Icons.favorite,
-                                      style: NeumorphicStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
                                     )
-                                  : NeumorphicIcon(Icons.favorite_outline,
-                                      style: NeumorphicStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor)),
+                                  : const Icon(
+                                      Icons.favorite_outline,
+                                    ),
                               label: const Text('Favourite'),
                             ),
                           ),
@@ -161,9 +146,13 @@ class ListItems {
               ]),
             ),
             onTap: () {
-              Get.to(NewsPage(
+              newsController.loadNews(article: menulist.newsquery[index]);
+              newsController.searchArticle.value = menulist.newsquery[index];
+              newsController.tabIndex.value = 1;
+              /* Get.to(NewsPage(
                 title: menulist.newsquery[index],
-              ));
+              )); */
+
               /*Navigator.push(
                   context,
                   MaterialPageRoute(

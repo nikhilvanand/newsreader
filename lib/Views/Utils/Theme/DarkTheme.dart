@@ -6,15 +6,15 @@ class CommonDarkTheme {
     primaryColor: Colors.black54,
     primaryColorLight: Colors.black87,
     primaryColorDark: Color.fromARGB(255, 255, 255, 255), //blueGrey.shade900,
-    primarySwatch: Colors.brown,
+    primarySwatch: Colors.grey,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
     ),
-    textButtonTheme: TextButtonThemeData(
+/*     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         primary: Colors.brown,
       ),
-    ),
+    ) */
     scaffoldBackgroundColor: Colors.black, //.shade900,
     textTheme: const TextTheme(
       headline5: TextStyle(fontSize: 18),
