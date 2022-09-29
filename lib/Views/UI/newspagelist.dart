@@ -10,7 +10,7 @@ import 'package:newsreader/Views/Utils/Widgets/MainPage/ListItems.dart';
 
 class NewsPage extends StatelessWidget {
   final String title;
-  NewsPage({super.key, required this.title});
+  NewsPage({super.key, this.title = 'News'});
   final NewsController newsController = Get.put(NewsController());
 
   @override
@@ -19,6 +19,7 @@ class NewsPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
             title,
             style: Theme.of(context).textTheme.caption,

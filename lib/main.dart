@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:newsreader/BusinessLogic/Getx/homecontroller.dart';
 import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
@@ -72,7 +73,7 @@ class MyHomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 200,
+              height: Get.height / 4,
               width: newsController.screenSize.width,
               //width: double.infinity,
               child: Padding(
@@ -82,7 +83,11 @@ class MyHomePage extends StatelessWidget {
                     future: newsController.loadNewsQuery(
                         menulist.newsquery[newsController.favIndex.value]),
                     builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasData) {
                         List<News> newsList = snapshot.data as List<News>;
                         return ListView.builder(
                             itemCount: 10,
@@ -90,7 +95,7 @@ class MyHomePage extends StatelessWidget {
                             itemBuilder: (context, int index) {
                               return SizedBox(
                                 // height: 200,
-                                width: newsController.screenSize.width * .7,
+                                width: Get.width * .7,
                                 child: InkWell(
                                   child: Card(
                                     shape: RoundedRectangleBorder(
@@ -116,7 +121,7 @@ class MyHomePage extends StatelessWidget {
                                             errorWidget:
                                                 (context, url, error) =>
                                                     const Icon(Icons.error),
-                                            height: 200,
+                                            height: Get.height / 4,
                                           ),
                                         ),
                                         Container(
@@ -186,39 +191,40 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: Obx((() => SnakeNavigationBar.color(
-            behaviour: SnakeBarBehaviour.pinned,
-            snakeShape: SnakeShape.circle,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10))),
-            padding: EdgeInsets.zero,
-
-            ///configuration for SnakeNavigationBar.color
-            snakeViewColor: Color(0xFFb5838d),
-            selectedItemColor: SnakeShape.circle == SnakeShape.indicator
-                ? Colors.purple
-                : null,
-            unselectedItemColor: Theme.of(context).primaryColorDark,
-
-            ///configuration for SnakeNavigationBar.gradient
-            //snakeViewGradient: selectedGradient,
-            //selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
-            //unselectedItemGradient: unselectedGradient,
-
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
-
-            currentIndex: newsController.tabIndex.value,
-            onTap: (value) {
-              newsController.tabIndex.value = value;
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-              BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search')
-            ],
-          ))),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: CurvedNavigationBar(
+          height: 55,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).backgroundColor,
+          buttonBackgroundColor: Theme.of(context).backgroundColor,
+          items: <Widget>[
+            Icon(
+              Icons.home,
+              size: 30,
+              color: Theme.of(context).primaryColorLight,
+            ),
+            Icon(
+              Icons.search,
+              size: 30,
+              color: Theme.of(context).primaryColorLight,
+            ),
+          ],
+          onTap: (index) {
+            newsController.tabIndex.value = index;
+            switch (index) {
+              case 0:
+                Get.to(MyHomePage(
+                  title: menulist.newsquery[index],
+                ));
+                break;
+              case 1:
+                Get.to(NewsPage());
+                break;
+            }
+          },
+        ),
+      ),
     );
   }
 }
