@@ -10,7 +10,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class ListItems {
   NewsController newsController = Get.find();
-  Card getMainListItem(BuildContext context, News state) {
+  Card searchCard(BuildContext context, News state) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: InkWell(
@@ -46,6 +46,7 @@ class ListItems {
                     child: Text(
                       state.title,
                       maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

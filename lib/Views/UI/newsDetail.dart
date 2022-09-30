@@ -24,7 +24,7 @@ class NewsDetail extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,10 +43,10 @@ class NewsDetail extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     news.title,
-                    maxLines: 3,
+                    //maxLines: 3,
                     style: const TextStyle(
                         //color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class NewsDetail extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     DateFormat('yyyy-MM-dd, kk:mm')
                         .format(DateTime.parse(news.publishedAt))
@@ -64,21 +64,21 @@ class NewsDetail extends StatelessWidget {
                   //var todayDate = DateFormat("yyyy-MM-dd", "en_US").parse(news.publishedAt);
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     news.description,
                     //style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     news.content,
                     //style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: TextButton(
                     onPressed: () async {
                       Uri uri = Uri.parse(news.url);

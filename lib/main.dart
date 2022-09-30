@@ -112,7 +112,7 @@ class MyHomePage extends StatelessWidget {
         children: [
           SizedBox(
             height: Get.height / 4,
-            width: newsController.screenSize.width,
+            width: Get.width,
             //width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -243,7 +243,7 @@ class MyHomePage extends StatelessWidget {
                     itemCount: state?.length,
                     itemBuilder: (context, index) {
                       ListItems listItems = ListItems();
-                      return listItems.getMainListItem(context, state![index]);
+                      return listItems.searchCard(context, state![index]);
                     }),
                 onLoading: const Center(
                   child: CircularProgressIndicator(
