@@ -229,12 +229,30 @@ class MyHomePage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8, left: 4, right: 4),
-              child: CupertinoSearchTextField(
-                //controller: textEditingController,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                onSubmitted: (value) => newsController.loadNews(article: value),
+            SizedBox(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CupertinoSearchTextField(
+                          //controller: textEditingController,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          onSubmitted: (value) {
+                            newsController.loadNews(article: value);
+                            newsController.writePrefHive(value);
+                          }),
+                    ),
+                    IconButton(
+                        onPressed: (() async {
+                          List<String> favs =
+                              await newsController.readPrefHive();
+                          Get.snackbar('title', favs.toString());
+                        }),
+                        icon: Icon(Icons.gesture))
+                  ],
+                ),
               ),
             ),
             Expanded(

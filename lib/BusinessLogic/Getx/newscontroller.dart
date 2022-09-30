@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,17 +8,34 @@ import 'package:newsreader/BusinessLogic/Repository/diomodel.dart';
 import 'package:newsreader/BusinessLogic/Repository/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Model/newsmodel.dart';
+import 'package:hive/hive.dart';
 
 class NewsController extends GetxController with StateMixin<List<News>> {
   final Size screenSize = Get.size;
   var favIndex = 0.obs;
   var tabIndex = 0.obs;
   var searchArticle = 'News'.obs;
+  var path = Directory.current.path;
   @override
   void onInit() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     favIndex.value = sharedPreferences.getInt('fav') ?? 0;
+    Hive.init(path);
+    /* var box = await Hive.openBox('testBox'); */
     super.onInit();
+  }
+
+  Future writePrefHive(String tag) async {
+    var box = await Hive.openBox('testBox');
+    List<String> favs = box.get('favs');
+    favs.add(tag);
+    box.put('favs', value);
+  }
+
+  Future<List<String>> readPrefHive() async {
+    var box = await Hive.openBox('testBox');
+    List<String> favs = box.get('favs');
+    return favs;
   }
 
   Future<void> setFavourite(int fav) async {
