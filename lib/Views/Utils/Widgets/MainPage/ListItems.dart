@@ -76,97 +76,108 @@ class ListItems {
     );
   }
 
-  Padding topNewsCard(BuildContext context, int index) {
+  Card topNewsCard(BuildContext context, String index) {
     Menulist menulist = Menulist();
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Card(
-          elevation: 6,
-          //color: Colors.black.withOpacity(0.1),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 4,
-                  child: ClipRRect(
+    return Card(
+        elevation: 6,
+        //color: Colors.black.withOpacity(0.1),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: InkWell(
+          child: Column(children: [
+            Flexible(
+              //fit: FlexFit.tight,
+              flex: 4,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: Image.asset(
-                      'Assets/MainScreen/Images/${menulist.assetimages[index]}',
+                      'Assets/MainScreen/Images/image.png',
+                      color: Colors.blueGrey.shade50,
                       fit: BoxFit.cover,
-                      //height: 80,
-                      width: double.infinity,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  flex: 2,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 10),
-                      child: FittedBox(
-                        child: Text(
-                          menulist.newsquery[index],
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Obx((() => Flexible(
-                      flex: 2,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 0),
-                          child: FittedBox(
-                            child: TextButton.icon(
-                              onPressed: () {
-                                newsController.setFavourite(index);
-                              },
-                              icon: newsController.favIndex.value == index
-                                  ? const Icon(
-                                      Icons.favorite,
-                                    )
-                                  : const Icon(
-                                      Icons.favorite_outline,
-                                    ),
-                              label: const Text('Favourite'),
-                            ),
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          //color: Colors.blueGrey,
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Image!',
+                            //style: TextStyle(fontSize: 30),
                           ),
-                        ),
+                        );
+                      },
+                      //height: 80,
+                      //width: double.infinity,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.favorite_outline,
+                              color: Colors.green,
+                              size: 15,
+                            )),
                       ),
-                    ))),
-                //)
-              ]),
+                      //const Spacer(),
+                      Expanded(
+                        child: IconButton(
+                            onPressed: () {
+                              newsController.deletePrefHive(index);
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: 15,
+                            )),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-            onTap: () {
-              newsController.loadNews(article: menulist.newsquery[index]);
-              newsController.searchArticle.value = menulist.newsquery[index];
-              newsController.tabIndex.value = 1;
-              /* Get.to(NewsPage(
-                title: menulist.newsquery[index],
-              )); */
+            Flexible(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FittedBox(
+                    child: Text(
+                      index,
+                      textAlign: TextAlign.center,
+                      // style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            //)
+          ]),
+          onTap: () {
+            //newsController.loadNews(article: menulist.newsquery[index]);
+            newsController.searchArticle.value = index;
+            newsController.tabIndex.value = 1;
+            /* Get.to(NewsPage(
+              title: menulist.newsquery[index],
+            )); */
 
-              /*Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NewsPage(
-                            title: menulist.newsquery[index],
-                          )));*/
-            },
-            onLongPress: () async {
-              //HomeCOntroller controller = Get.find();
-              newsController.setFavourite(index);
-              //controller.favourite.value = menulist.newsquery[index];
-            },
-          )),
-    );
+            /*Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewsPage(
+                          title: menulist.newsquery[index],
+                        )));*/
+          },
+          /* onLongPress: () async {
+            //HomeCOntroller controller = Get.find();
+            newsController.setFavourite(index);
+            //controller.favourite.value = menulist.newsquery[index];
+          }, */
+        ));
   }
 }

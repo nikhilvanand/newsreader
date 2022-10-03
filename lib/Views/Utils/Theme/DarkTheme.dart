@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CommonDarkTheme {
   ThemeData themedata = ThemeData(
@@ -16,12 +17,13 @@ class CommonDarkTheme {
       ),
     ) */
     scaffoldBackgroundColor: Colors.black, //.shade900,
-    textTheme: const TextTheme(
-      headline5: TextStyle(fontSize: 18),
-      bodyText1: TextStyle(fontSize: 16),
-      bodyText2: TextStyle(fontSize: 16),
-      caption:
-          TextStyle(fontSize: 18, color: Color.fromARGB(255, 255, 255, 255)),
+    textTheme: TextTheme(
+      headline5: GoogleFonts.ubuntu(fontSize: 18),
+      bodyText1: GoogleFonts.ubuntu(fontSize: 16),
+      bodyText2: GoogleFonts.ubuntu(fontSize: 16),
+      subtitle1: GoogleFonts.ubuntu(fontSize: 15),
+      subtitle2: GoogleFonts.ubuntu(fontSize: 12),
+      caption: GoogleFonts.ubuntu(fontSize: 18, color: Colors.black),
     ).apply(
       bodyColor: Colors.grey.shade200,
     ),

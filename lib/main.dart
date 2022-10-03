@@ -1,7 +1,11 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 //import 'package:newsreader/BusinessLogic/Getx/homecontroller.dart';
 import 'package:newsreader/BusinessLogic/Getx/newscontroller.dart';
 import 'package:newsreader/Views/Utils/Theme/LightTheme.dart';
@@ -9,11 +13,15 @@ import 'package:newsreader/Views/Utils/Theme/DarkTheme.dart';
 import 'package:newsreader/Views/Utils/Lists/MainPage/MenuList.dart';
 import 'package:get/get.dart';
 import 'package:newsreader/Views/Utils/Widgets/MainPage/ListItems.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'BusinessLogic/Model/newsmodel.dart';
 import 'Views/UI/newsDetail.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDirectory = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDirectory.path);
   runApp(MyApp());
 }
 
@@ -49,7 +57,7 @@ class MyHomePage extends StatelessWidget {
       //backgroundColor: Colors.brown.shade600,
       appBar: AppBar(
         title: Obx(() => Text(
-              newsController.searchArticle.value,
+              newsController.searchArticle.value.toUpperCase(),
               style: Theme.of(context).textTheme.caption,
             )),
         backgroundColor: Colors.transparent,
@@ -72,7 +80,7 @@ class MyHomePage extends StatelessWidget {
           .value]), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: Obx(
         () => Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(top: 6.0),
           child: CurvedNavigationBar(
             index: newsController.tabIndex.value,
             height: 55,
@@ -92,8 +100,7 @@ class MyHomePage extends StatelessWidget {
               ),
             ],
             onTap: (index) {
-              newsController.searchArticle.value =
-                  index == 0 ? 'News' : 'Search';
+              newsController.searchArticle.value = index == 0 ? 'News' : '';
               newsController.tabIndex.value = index;
               newsController.loadNews();
             },
@@ -104,8 +111,8 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget homePage(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,109 +121,111 @@ class MyHomePage extends StatelessWidget {
             height: Get.height / 4,
             width: Get.width,
             //width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Obx(() => FutureBuilder(
-                  //initialData: const [],
-                  future: newsController.loadNewsQuery(
-                      menulist.newsquery[newsController.favIndex.value]),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData) {
-                      List<News> newsList = snapshot.data as List<News>;
-                      return ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, int index) {
-                            return SizedBox(
-                              // height: 200,
-                              width: Get.width * .7,
-                              child: InkWell(
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  color: Colors.white,
-                                  child: Stack(
-                                    alignment: Alignment.bottomCenter,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: CachedNetworkImage(
-                                          imageUrl: newsList[index].urlToImage,
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) => Center(
-                                              child: CircularProgressIndicator(
-                                            color: Colors.brown.shade50,
-                                          )),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                          height: Get.height / 4,
-                                        ),
+            child: Obx(() => FutureBuilder(
+                //initialData: const [],
+                future: newsController.loadNewsQuery(
+                    menulist.newsquery[newsController.favIndex.value]),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.data == null) {
+                    return const Center(
+                      child: Text('No data!'),
+                    );
+                  } else if (snapshot.hasData) {
+                    List<News> newsList = snapshot.data as List<News>;
+                    return ListView.builder(
+                        itemCount: 10,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, int index) {
+                          return SizedBox(
+                            // height: 200,
+                            width: Get.width * .7,
+                            child: InkWell(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                color: Colors.white,
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: newsList[index].urlToImage,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator(
+                                          color: Colors.brown.shade50,
+                                        )),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                        height: Get.height / 4,
                                       ),
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            gradient: const LinearGradient(
-                                                colors: [
-                                                  Colors.transparent,
-                                                  Colors.black
-                                                ],
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter),
+                                    ),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          gradient: const LinearGradient(
+                                              colors: [
+                                                Colors.transparent,
+                                                Colors.black
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          child: Text(
+                                            newsList[index].title,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1!
+                                                .copyWith(color: Colors.white),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            child: Text(
-                                              newsList[index].title,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1!
-                                                  .copyWith(
-                                                      color: Colors.white),
-                                              textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          )),
-                                    ],
-                                  ),
+                                        )),
+                                  ],
                                 ),
-                                onTap: () {
-                                  Get.to(NewsDetail(
-                                    news: newsList[index],
-                                  ));
-                                },
                               ),
-                            );
-                          });
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('An error occured please check internet!'),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  })),
-            ),
+                              onTap: () {
+                                Get.to(NewsDetail(
+                                  news: newsList[index],
+                                ));
+                              },
+                            ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('An error occured please check internet!'),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                })),
           ),
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: GridView.count(
-                childAspectRatio: 0.7,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 3,
-                children: List.generate(menulist.newsquery.length, (index) {
-                  return listItems.topNewsCard(context, index);
-                }),
-              )),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.only(top: 4), //menuCard
+                child: Obx(() => GridView.count(
+                      scrollDirection: Axis.vertical,
+                      crossAxisCount: 3,
+                      childAspectRatio: .7,
+                      children: List.generate(
+                          newsController.favs.length,
+                          (index) => listItems.topNewsCard(
+                              context, newsController.favs[index])),
+                    ))),
+          ),
         ],
       ),
     );
@@ -229,49 +238,72 @@ class MyHomePage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
+            Expanded(
+              child: Obx(
+                () => FutureBuilder(
+                    //initialData: const [],
+                    future: newsController
+                        .loadNewsQuery(newsController.searchArticle.value),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasData) {
+                        List<News> newsList = snapshot.data as List<News>;
+                        if (newsList.isEmpty) {
+                          return const Center(
+                            child: Text('No Data!'),
+                          );
+                        } else {
+                          return ListView.builder(
+                              itemCount: newsList.length,
+                              itemBuilder: (context, index) {
+                                ListItems listItems = ListItems();
+                                return listItems.searchCard(
+                                    context, newsList[index]);
+                              });
+                        }
+                      } else if (snapshot.hasError) {
+                        return const Center(
+                          child:
+                              Text('An error occured please check internet!'),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
+              ),
+            ),
             SizedBox(
               height: 50,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+                padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
                 child: Row(
                   children: [
                     Expanded(
                       child: CupertinoSearchTextField(
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark),
                           //controller: textEditingController,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 8),
                           onSubmitted: (value) {
-                            newsController.loadNews(article: value);
+                            //newsController.loadNews(article: value);
+                            newsController.searchArticle.value = value;
                             newsController.writePrefHive(value);
                           }),
                     ),
                     IconButton(
                         onPressed: (() async {
-                          List<String> favs =
-                              await newsController.readPrefHive();
-                          Get.snackbar('title', favs.toString());
+                          /* List<String> favs =
+                              await newsController.readPrefHive(); */
+                          Get.snackbar('title', newsController.favs.toString());
                         }),
-                        icon: Icon(Icons.gesture))
+                        icon: const Icon(Icons.gesture))
                   ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: newsController.obx(
-                (state) => ListView.builder(
-                    itemCount: state?.length,
-                    itemBuilder: (context, index) {
-                      ListItems listItems = ListItems();
-                      return listItems.searchCard(context, state![index]);
-                    }),
-                onLoading: const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                ),
-                onEmpty: const Text('No Data'),
-                onError: (error) => const Text(
-                  'An Error Occured!\n Please check internet Connection',
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
